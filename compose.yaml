@@ -1,0 +1,7 @@
+# 수강생용. admin 설정을 넣지 않는다 (기본 비활성 유지).
+# 이미지는 GHCR에서 자동으로 받아옵니다 (docker load 불필요, arm64/amd64 모두 지원).
+services:
+  pg-mock:
+    image: ghcr.io/donghyunkim-hi/pg-mock:1.0.0
+    ports:
+      - "9090:9090"
