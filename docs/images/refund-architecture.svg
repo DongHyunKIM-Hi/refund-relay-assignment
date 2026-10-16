@@ -1,0 +1,103 @@
+<svg viewBox="20 25 1000 605" width="1000" height="605" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="환불 서버 아키텍처: 요청자가 접수 API를 호출하면 즉시 202 응답을 받고, 처리 워커가 별도로 DB를 읽어 가상 결제대행사와 통신한다">
+<title>환불 요청 중계 서버 아키텍처</title>
+<desc>요청을 보내는 쪽 → 구현할 환불 서버(접수 API, 조회 API, DB, 처리 워커) → 가상 결제대행사. 접수 경로는 결제대행사를 기다리지 않고 즉시 응답하고, 워커가 뒤에서 비동기로 처리한다.</desc>
+<rect width="1040" height="650" fill="#ffffff"/>
+
+<defs>
+  <marker id="arrow-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#64748b"/>
+  </marker>
+  <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/>
+  </marker>
+  <marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/>
+  </marker>
+</defs>
+
+<!-- containers -->
+<rect x="280" y="40" width="430" height="520" rx="14" fill="#fbfbfc" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="495" y="65" text-anchor="middle" font-size="15" font-weight="700" fill="#334155" font-family="sans-serif">구현할 환불 서버 (:8080)</text>
+
+<rect x="790" y="380" width="220" height="220" rx="14" fill="#fbfbfc" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text text-anchor="middle" font-size="13.5" font-weight="700" fill="#334155" font-family="sans-serif">
+  <tspan x="900" y="401">제공되는 가상 결제대행사</tspan>
+  <tspan x="900" y="417">(:9090)</tspan>
+</text>
+
+<!-- requester -->
+<rect x="30" y="90" width="190" height="200" rx="10" fill="#eef2ff" stroke="#818cf8" stroke-width="1.5"/>
+<text text-anchor="middle" font-family="sans-serif" fill="#312e81">
+  <tspan x="125" y="185" font-size="14" font-weight="700">요청을 보내는 쪽</tspan>
+  <tspan x="125" y="207" font-size="12">(Swagger / curl)</tspan>
+</text>
+
+<!-- accept api (highlighted: fast path) -->
+<rect x="310" y="110" width="190" height="60" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="405" y="145" text-anchor="middle" font-size="14" font-weight="700" fill="#1e3a8a" font-family="sans-serif">환불 접수 API</text>
+
+<!-- query api -->
+<rect x="310" y="210" width="190" height="60" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+<text x="405" y="245" text-anchor="middle" font-size="14" font-weight="700" fill="#334155" font-family="sans-serif">환불 조회 API</text>
+
+<!-- DB cylinder -->
+<path d="M370,345 A85,16 0 0 1 540,345 L540,405 A85,16 0 0 1 370,405 Z" fill="#e2e8f0" stroke="#64748b" stroke-width="1.5"/>
+<ellipse cx="455" cy="345" rx="85" ry="16" fill="#eef1f4" stroke="#64748b" stroke-width="1.5"/>
+<text x="455" y="386" text-anchor="middle" font-size="14" font-weight="700" fill="#1e293b" font-family="sans-serif">DB (H2)</text>
+
+<!-- worker (highlighted: async path) -->
+<rect x="310" y="460" width="190" height="60" rx="8" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+<text x="405" y="495" text-anchor="middle" font-size="14" font-weight="700" fill="#7c2d12" font-family="sans-serif">처리 워커</text>
+
+<!-- pg boxes -->
+<rect x="800" y="430" width="200" height="55" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+<text x="900" y="462" text-anchor="middle" font-size="12.5" fill="#334155" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">POST /pg/refunds</text>
+
+<rect x="800" y="510" width="200" height="55" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+<text x="900" y="542" text-anchor="middle" font-size="11" fill="#334155" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">GET /pg/refunds/{refundId}</text>
+
+<!-- arrows -->
+<!-- requester -> accept (highlighted, fast path) -->
+<line x1="220" y1="140" x2="308" y2="140" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-blue)"/>
+<text text-anchor="middle" font-family="ui-monospace, monospace" fill="#1d4ed8">
+  <tspan x="264" y="120" font-size="11">POST /api/v1/refunds</tspan>
+</text>
+<text x="264" y="133" text-anchor="middle" font-size="11" fill="#1d4ed8" font-family="sans-serif">(바로 202 응답)</text>
+
+<!-- requester -> query -->
+<line x1="220" y1="240" x2="308" y2="240" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+<text x="264" y="228" text-anchor="middle" font-size="11" fill="#475569" font-family="ui-monospace, monospace">GET /api/v1/refunds</text>
+
+<!-- accept -> db : 저장 (query 박스를 피해 오른쪽으로 돌아서 내려감) -->
+<path d="M405,170 L405,188 L516,188 L516,338" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+<text x="546" y="270" text-anchor="middle" font-size="12" fill="#334155" font-family="sans-serif">저장</text>
+
+<!-- query -> db : 조회 -->
+<line x1="405" y1="270" x2="488" y2="335" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+<text x="470" y="302" text-anchor="middle" font-size="12" fill="#334155" font-family="sans-serif">조회</text>
+
+<!-- worker -> db : 처리할 건 조회 -->
+<line x1="370" y1="460" x2="410" y2="407" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+<text x="322" y="440" text-anchor="middle" font-size="12" fill="#334155" font-family="sans-serif">처리할 건 조회</text>
+
+<!-- worker -> db : 완료 또는 실패 기록 -->
+<line x1="450" y1="460" x2="495" y2="407" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+<text x="500" y="440" text-anchor="middle" font-size="12" fill="#334155" font-family="sans-serif">완료 또는 실패 기록</text>
+
+<!-- worker -> pg post (highlighted, async path) -->
+<line x1="500" y1="475" x2="798" y2="457" stroke="#ea580c" stroke-width="2" marker-end="url(#arrow-orange)"/>
+<text text-anchor="middle" font-family="sans-serif" fill="#c2410c">
+  <tspan x="650" y="438" font-size="12" font-weight="700">환불 요청</tspan>
+  <tspan x="650" y="452" font-size="11">(같은 refundId)</tspan>
+</text>
+
+<!-- worker -> pg get -->
+<line x1="500" y1="505" x2="798" y2="537" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+<text x="650" y="515" text-anchor="middle" font-size="12" fill="#334155" font-family="sans-serif">재시도 전 결과 확인</text>
+
+<!-- legend -->
+<rect x="40" y="575" width="14" height="14" fill="#dbeafe" stroke="#3b82f6"/>
+<text x="60" y="586" font-size="12" fill="#334155" font-family="sans-serif">접수 경로: 결제대행사를 기다리지 않고 바로 응답</text>
+<rect x="40" y="602" width="14" height="14" fill="#ffedd5" stroke="#f97316"/>
+<text x="60" y="613" font-size="12" fill="#334155" font-family="sans-serif">워커 경로: 별도로 결제대행사와 통신</text>
+</svg>

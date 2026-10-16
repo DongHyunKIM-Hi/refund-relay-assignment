@@ -81,35 +81,7 @@
 - 환불 접수 API(파란색)는 결제대행사의 응답을 기다리지 않고 바로 응답합니다.
 - 결제대행사 호출은 처리 워커(주황색)가 별도로 담당합니다.
 
-```mermaid
-flowchart LR
-    A["요청을 보내는 쪽<br/>(Swagger / curl)"]
-
-    subgraph SERVER["구현할 환불 서버 (:8080)"]
-        B["환불 접수 API"]
-        C["환불 조회 API"]
-        D[("DB (H2)")]
-        E["처리 워커"]
-    end
-
-    subgraph PG["제공되는 가상 결제대행사 (:9090)"]
-        F["POST /pg/refunds"]
-        G["GET /pg/refunds/{refundId}"]
-    end
-
-    A -->|"POST /api/v1/refunds (바로 202 응답)"| B
-    A -->|"GET /api/v1/refunds"| C
-    B --> D
-    C --> D
-    E -->|"처리할 건 조회"| D
-    E -->|"완료 또는 실패 기록"| D
-    E -->|"환불 요청 (같은 refundId)"| F
-    E -->|"재시도 전 결과 확인"| G
-
-    style B fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
-    style E fill:#ffedd5,stroke:#f97316,stroke-width:2px
-    style D fill:#e2e8f0,stroke:#64748b
-```
+![환불 서버 구조: 접수 API는 바로 응답하고, 처리 워커가 별도로 가상 결제대행사와 통신합니다](docs/images/refund-architecture.svg)
 
 ## 3. 시작하기
 
@@ -235,16 +207,7 @@ flowchart LR
 - 내부적으로는 더 세분화한 상태(예: 재시도 대기)를 사용해도 됩니다.
 - 다만 API 응답에서는 위 4개 상태만 보여야 합니다.
 
-```mermaid
-stateDiagram-v2
-    [*] --> ACCEPTED : 접수 성공
-    [*] --> REJECTED : 한도 초과 / 입력 오류
-    ACCEPTED --> COMPLETED : 결제대행사 SUCCESS
-    ACCEPTED --> FAILED : 재시도 3회 모두 실패
-    COMPLETED --> [*]
-    FAILED --> [*]
-    REJECTED --> [*]
-```
+![환불 상태 전이도: 접수되면 ACCEPTED, 결제대행사가 성공하면 COMPLETED, 재시도가 모두 실패하면 FAILED, 한도 초과나 입력 오류면 REJECTED](docs/images/refund-state-diagram.svg)
 
 | `failureReason` | 상황 |
 |---|---|
@@ -322,19 +285,7 @@ stateDiagram-v2
 - 환불 서버는 응답 대기 시간이 지나 이 요청을 실패(타임아웃)로 판단합니다.
 - 이때 같은 `refundId`로 재시도하면, 결제대행사는 이미 처리한 건이라고 응답하고 환불을 다시 하지 않습니다.
 
-```mermaid
-sequenceDiagram
-    participant W as 처리 워커
-    participant PG as 가상 결제대행사
-
-    W->>PG: POST /pg/refunds (refundId = R-1)
-    Note over PG: 실제로는 성공했지만<br/>응답이 매우 느림
-    Note over W: 응답 대기 시간 초과<br/>실패로 보고 재시도 준비
-
-    W->>PG: POST /pg/refunds (refundId = R-1, 같은 ID로 재시도)
-    PG-->>W: 200 OK, alreadyProcessed: true
-    Note over W: 이미 처리된 건임을 확인<br/>환불을 새로 만들지 않음
-```
+![시간 초과 후 같은 refundId로 재시도하면 결제대행사가 이미 처리된 건이라고 응답하는 흐름](docs/images/refund-timeout-sequence.svg)
 
 > [!TIP]
 > - 이 동작을 어떻게 활용해야 환불이 두 번 처리되지 않을지 고민해 보세요.

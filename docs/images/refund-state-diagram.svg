@@ -1,0 +1,52 @@
+<svg viewBox="0 20 680 335" width="680" height="335" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="환불 상태 전이도: 접수되면 ACCEPTED, 결제대행사가 성공하면 COMPLETED, 재시도를 모두 소진하면 FAILED, 한도 초과나 입력 오류면 처음부터 REJECTED">
+<title>환불 상태 전이도</title>
+<desc>시작 → ACCEPTED(접수 성공) 또는 REJECTED(한도 초과 또는 입력 오류). ACCEPTED → COMPLETED(결제대행사 SUCCESS) 또는 FAILED(재시도 3회 모두 실패).</desc>
+<rect width="720" height="350" fill="#ffffff"/>
+
+<defs>
+  <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#475569"/>
+  </marker>
+</defs>
+
+<!-- start -->
+<circle cx="50" cy="170" r="9" fill="#1e293b"/>
+<text x="50" y="150" text-anchor="middle" font-size="11" fill="#64748b" font-family="sans-serif">시작</text>
+
+<!-- ACCEPTED -->
+<rect x="160" y="90" width="170" height="64" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="245" y="128" text-anchor="middle" font-size="15" font-weight="700" fill="#1e3a8a" font-family="sans-serif">ACCEPTED</text>
+
+<!-- REJECTED (terminal) -->
+<rect x="160" y="250" width="170" height="64" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+<rect x="164" y="254" width="162" height="56" rx="8" fill="none" stroke="#f59e0b" stroke-width="1.2"/>
+<text x="245" y="288" text-anchor="middle" font-size="15" font-weight="700" fill="#92400e" font-family="sans-serif">REJECTED</text>
+
+<!-- COMPLETED (terminal) -->
+<rect x="480" y="40" width="180" height="64" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
+<rect x="484" y="44" width="172" height="56" rx="8" fill="none" stroke="#22c55e" stroke-width="1.2"/>
+<text x="570" y="78" text-anchor="middle" font-size="15" font-weight="700" fill="#166534" font-family="sans-serif">COMPLETED</text>
+
+<!-- FAILED (terminal) -->
+<rect x="480" y="170" width="180" height="64" rx="10" fill="#fee2e2" stroke="#ef4444" stroke-width="1.5"/>
+<rect x="484" y="174" width="172" height="56" rx="8" fill="none" stroke="#ef4444" stroke-width="1.2"/>
+<text x="570" y="208" text-anchor="middle" font-size="15" font-weight="700" fill="#991b1b" font-family="sans-serif">FAILED</text>
+
+<!-- edges -->
+<line x1="58" y1="163" x2="158" y2="128" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow2)"/>
+<text x="95" y="130" text-anchor="middle" font-size="12" fill="#334155" font-family="sans-serif">접수 성공</text>
+
+<line x1="58" y1="177" x2="158" y2="270" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow2)"/>
+<text text-anchor="middle" font-family="sans-serif" fill="#334155">
+  <tspan x="90" y="220" font-size="12">한도 초과 /</tspan>
+  <tspan x="90" y="235" font-size="12">입력 오류</tspan>
+</text>
+
+<line x1="330" y1="108" x2="478" y2="80" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow2)"/>
+<text x="405" y="85" text-anchor="middle" font-size="12" fill="#334155" font-family="sans-serif">결제대행사 SUCCESS</text>
+
+<line x1="330" y1="140" x2="478" y2="195" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow2)"/>
+<text x="405" y="175" text-anchor="middle" font-size="12" fill="#334155" font-family="sans-serif">재시도 3회 모두 실패</text>
+
+<text x="20" y="335" font-size="10.5" fill="#94a3b8" font-family="sans-serif" font-style="italic">(이중 테두리 = 종결 상태: COMPLETED / FAILED / REJECTED)</text>
+</svg>
