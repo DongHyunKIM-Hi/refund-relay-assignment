@@ -1,6 +1,6 @@
-<svg viewBox="0 20 680 335" width="680" height="335" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="환불 상태 전이도: 접수되면 ACCEPTED, 결제대행사가 성공하면 COMPLETED, 재시도를 모두 소진하면 FAILED, 한도 초과나 입력 오류면 처음부터 REJECTED">
+<svg viewBox="0 20 680 335" width="680" height="335" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="환불 상태 전이도: 접수되면 ACCEPTED, 결제대행사가 성공하면 COMPLETED, 재시도를 모두 소진하면 FAILED, 한도 초과면 처음부터 REJECTED. 입력 오류는 저장하지 않으므로 상태가 없다">
 <title>환불 상태 전이도</title>
-<desc>시작 → ACCEPTED(접수 성공) 또는 REJECTED(한도 초과 또는 입력 오류). ACCEPTED → COMPLETED(결제대행사 SUCCESS) 또는 FAILED(재시도 3회 모두 실패).</desc>
+<desc>시작 → ACCEPTED(접수 성공) 또는 REJECTED(한도 초과). ACCEPTED → COMPLETED(결제대행사 SUCCESS) 또는 FAILED(재시도 3회 모두 실패).</desc>
 <rect width="720" height="350" fill="#ffffff"/>
 
 <defs>
@@ -38,8 +38,8 @@
 
 <line x1="58" y1="177" x2="158" y2="270" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow2)"/>
 <text text-anchor="middle" font-family="sans-serif" fill="#334155">
-  <tspan x="90" y="220" font-size="12">한도 초과 /</tspan>
-  <tspan x="90" y="235" font-size="12">입력 오류</tspan>
+  <tspan x="90" y="220" font-size="12">한도 초과</tspan>
+  <tspan x="90" y="235" font-size="12">(422)</tspan>
 </text>
 
 <line x1="330" y1="108" x2="478" y2="80" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow2)"/>

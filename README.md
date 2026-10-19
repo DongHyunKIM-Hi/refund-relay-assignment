@@ -158,6 +158,7 @@
 | `INVALID_REQUEST` | 입력 오류 (400) |
 | `REFUND_ID_CONFLICT` | 같은 ID, 다른 내용 (409) |
 | `REFUND_LIMIT_EXCEEDED` | 한도 초과 (422) |
+| `REFUND_NOT_FOUND` | 없는 환불 ID 조회 (404) |
 
 **같은 내용의 기준**
 
@@ -178,8 +179,10 @@
 ### 5-2. 환불 조회
 
 - 단건 조회: `GET /api/v1/refunds/{refundId}`
-  - 해당 ID가 없으면 404를 응답합니다.
+  - 해당 ID가 없으면 404와 에러 본문(`REFUND_NOT_FOUND`)을 응답합니다.
 - 목록 조회: `GET /api/v1/refunds?orderId=ORD-2001&page=0&size=20`
+  - `orderId`는 필수입니다. 없으면 400(`INVALID_REQUEST`)을 응답합니다.
+  - `page`는 0 이상(기본값 0), `size`는 1~100(기본값 20)입니다.
   - 접수 시각 기준 최신순으로 정렬합니다.
 
 ```json
@@ -207,7 +210,7 @@
 - 내부적으로는 더 세분화한 상태(예: 재시도 대기)를 사용해도 됩니다.
 - 다만 API 응답에서는 위 4개 상태만 보여야 합니다.
 
-![환불 상태 전이도: 접수되면 ACCEPTED, 결제대행사가 성공하면 COMPLETED, 재시도가 모두 실패하면 FAILED, 한도 초과나 입력 오류면 REJECTED](docs/images/refund-state-diagram.svg)
+![환불 상태 전이도: 접수되면 ACCEPTED, 결제대행사가 성공하면 COMPLETED, 재시도가 모두 실패하면 FAILED, 한도 초과면 REJECTED](docs/images/refund-state-diagram.svg)
 
 | `failureReason` | 상황 |
 |---|---|
@@ -358,6 +361,7 @@ S6 예시: 결제 금액이 10,000원인 주문에 4,000원 환불 요청 3건�
 
 ## 9. 제출 방법
 
+- `starter-project/` 폴더를 제출 저장소의 루트로 사용합니다. 아래에서 말하는 루트는 이 폴더입니다.
 - 저장소 루트에 Gradle 프로젝트, `README.md`, `docs/design.md`를 둡니다.
 - 루트에서 `./gradlew bootRun`으로 실행되어야 하며, 포트는 8080입니다.
 - 결제대행사 주소는 환경변수 `PG_BASE_URL`로 설정합니다. 기본값은 `http://localhost:9090`입니다.

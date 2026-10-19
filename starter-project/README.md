@@ -1,25 +1,28 @@
-# 환불 요청 중계 서버 — 시작 프로젝트
+# 환불 요청 중계 서버 시작 프로젝트
 
-과제 설명은 상위 폴더의 `README.md`(가이드)를 먼저 읽어 주세요. 이 프로젝트는 빌드 설정(Java 17, Spring Boot 4.1.1, Gradle, JPA + H2)만 갖춘 빈 프로젝트입니다. 도메인 코드는 없습니다 — 여러분이 처음부터 만듭니다.
+- 과제 설명은 상위 폴더의 `README.md`를 먼저 읽어 주세요.
+- 이 프로젝트에는 빌드 설정(Java 17, Spring Boot 4.1.1, Gradle, JPA, H2)만 있고 도메인 코드는 없습니다.
+- 이 폴더를 제출 저장소의 루트로 사용합니다.
 
 ## 실행
 
-```
+```bash
 ./gradlew bootRun
 ```
 
-기본 포트는 `8080`입니다. 가상 결제대행사(`../compose.yaml`)가 `9090`에서 먼저 떠 있어야 합니다.
+- 포트는 `8080`입니다.
+- 가상 결제대행사(`../compose.yaml`)를 `9090` 포트로 먼저 실행해 두어야 합니다.
 
 ## 결제대행사 주소 바꾸기
 
+결제대행사 주소는 환경변수 `PG_BASE_URL`로 바꿀 수 있게 구현해 주세요. 기본값은 `http://localhost:9090`입니다.
+
+```bash
+PG_BASE_URL=http://localhost:9999 ./gradlew bootRun
 ```
-PG_BASE_URL=http://localhost:9091 ./gradlew bootRun
-```
 
-기본값은 `http://localhost:9090`입니다.
+## 제출 전 확인 사항
 
-## 제출 전 체크
-
-- [ ] `docs/design.md`를 채웠는가 (`../docs-template/design.md`를 복사해서 시작하세요)
-- [ ] `./gradlew test`가 통과하는가
-- [ ] `requests.http`의 모든 시나리오가 가이드의 기대 결과와 같은가
+- [ ] `docs/design.md`를 작성했다 (`../docs-template/design.md`를 복사해서 시작)
+- [ ] `./gradlew test`가 통과한다
+- [ ] `../requests.http`의 시나리오가 README의 기대 결과와 같다
