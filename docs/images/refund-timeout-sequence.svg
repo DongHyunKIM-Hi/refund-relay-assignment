@@ -62,6 +62,6 @@
 <rect x="110" y="367" width="260" height="44" rx="6" fill="#dcfce7" stroke="#22c55e" stroke-width="1"/>
 <text text-anchor="middle" font-family="sans-serif" fill="#166534">
   <tspan x="240" y="386" font-size="12">이미 처리된 건임을 확인</tspan>
-  <tspan x="240" y="402" font-size="12">환불을 새로 만들지 않고 COMPLETED</tspan>
+  <tspan x="240" y="402" font-size="12">새 ID로 다시 요청하지 않고 COMPLETED</tspan>
 </text>
 </svg>

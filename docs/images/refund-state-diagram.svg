@@ -1,6 +1,6 @@
 <svg viewBox="0 20 680 335" width="680" height="335" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="환불 상태 전이도: 접수되면 ACCEPTED, 결제대행사가 성공하면 COMPLETED, 재시도를 모두 소진하면 FAILED, 한도 초과면 처음부터 REJECTED. 입력 오류는 저장하지 않으므로 상태가 없다">
 <title>환불 상태 전이도</title>
-<desc>시작 → ACCEPTED(접수 성공) 또는 REJECTED(한도 초과). ACCEPTED → COMPLETED(결제대행사 SUCCESS) 또는 FAILED(재시도 3회 모두 실패).</desc>
+<desc>시작 → ACCEPTED(접수 성공) 또는 REJECTED(한도 초과). ACCEPTED → COMPLETED(결제대행사 SUCCESS) 또는 FAILED(4번 시도 모두 실패).</desc>
 <rect width="720" height="350" fill="#ffffff"/>
 
 <defs>
@@ -46,7 +46,7 @@
 <text x="405" y="85" text-anchor="middle" font-size="12" fill="#334155" font-family="sans-serif">결제대행사 SUCCESS</text>
 
 <line x1="330" y1="140" x2="478" y2="195" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow2)"/>
-<text x="405" y="175" text-anchor="middle" font-size="12" fill="#334155" font-family="sans-serif">재시도 3회 모두 실패</text>
+<text x="405" y="175" text-anchor="middle" font-size="12" fill="#334155" font-family="sans-serif">4번 시도 모두 실패</text>
 
 <text x="20" y="335" font-size="10.5" fill="#94a3b8" font-family="sans-serif" font-style="italic">(이중 테두리 = 종결 상태: COMPLETED / FAILED / REJECTED)</text>
 </svg>

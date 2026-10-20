@@ -29,7 +29,7 @@
 <rect x="30" y="90" width="190" height="200" rx="10" fill="#eef2ff" stroke="#818cf8" stroke-width="1.5"/>
 <text text-anchor="middle" font-family="sans-serif" fill="#312e81">
   <tspan x="125" y="185" font-size="14" font-weight="700">요청을 보내는 쪽</tspan>
-  <tspan x="125" y="207" font-size="12">(Swagger / curl)</tspan>
+  <tspan x="125" y="207" font-size="12">(curl, HTTP Client)</tspan>
 </text>
 
 <!-- accept api (highlighted: fast path) -->
@@ -93,7 +93,7 @@
 
 <!-- worker -> pg get -->
 <line x1="500" y1="505" x2="798" y2="537" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
-<text x="650" y="515" text-anchor="middle" font-size="12" fill="#334155" font-family="sans-serif">재시도 전 결과 확인</text>
+<text x="650" y="515" text-anchor="middle" font-size="12" fill="#334155" font-family="sans-serif">(선택) 재시도 전 처리 여부 확인</text>
 
 <!-- legend -->
 <rect x="40" y="575" width="14" height="14" fill="#dbeafe" stroke="#3b82f6"/>

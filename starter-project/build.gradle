@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.practice.refundrelay'
 version = '0.0.1-SNAPSHOT'
-description = '환불 요청 중계 서버 (과제 1) - 여기서부터 시작하세요'
+description = '환불 요청 중계 서버 시작 프로젝트'
 
 java {
 	toolchain {
