@@ -1,0 +1,10 @@
+# 가상 결제대행사. 이미지는 자동으로 내려받습니다 (Intel, Apple Silicon 모두 지원).
+#
+# 결제대행사의 응답은 요청마다 무작위로 정해집니다.
+# 실패나 재시도, 응답 지연을 원하는 때에 확인하려면 README 6장의 시나리오 재현 API
+# (POST http://localhost:9090/sandbox/scenario)로 응답을 직접 지정해 주세요.
+services:
+  pg-mock:
+    image: ghcr.io/donghyunkim-hi/pg-mock:1.1.1
+    ports:
+      - "9090:9090"
